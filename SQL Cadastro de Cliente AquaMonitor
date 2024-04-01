@@ -1,0 +1,33 @@
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Device;
+
+CREATE TABLE User (
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  	FirstName VARCHAR(20),
+  	LastName VARCHAR(20),
+  	CompleteName as (FirstName || " " || LastName),
+  	Password VARCHAR(12) NOT NULL,
+  
+  	CPF CHAR(11) NOT NULL,
+  
+  	Rua VARCHAR(100) NOT NULL,
+  	ResidenceNumber INT NOT NULL,
+  	Bairro VARCHAR(100) NOT NULL,
+  	CEP CHAR(8) NOT NULL,
+  	Address AS ("Rua " || Rua || ", " || CAST(ResidenceNumber AS VARCHAR) || ", Bairro " || Bairro),
+  	
+    Devices_IDs VARCHAR(255) DEFAULT ""
+);
+
+CREATE TABLE Device (
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+ 	Client_ID INTEGER,
+  	SeriesNumber INT NOT NULL,
+  
+  	FOREIGN KEY (Client_ID) REFERENCES User(Client_ID)
+);
+
+INSERT INTO User (FirstName, LastName, Password, CPF, Rua, ResidenceNumber, Bairro, CEP) VALUES
+("Thomas", "Silveira", "blablabla", "48517139836", "Leão XIII", 200, "Jardim Tanzi", "18134330");
+
+SELECT * FROM User;
